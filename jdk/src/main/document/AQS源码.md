@@ -259,6 +259,8 @@ if (compareAndSetState(0, 1))
 
 ### 参考
 
+[深入浅出AQS之独占锁模式](http://www.importnew.com/24006.html)
+
 [AQS实现原理](http://www.importnew.com/24006.html)
 
 [AQS源码分析](https://www.jianshu.com/p/c47a4f6e8995)
