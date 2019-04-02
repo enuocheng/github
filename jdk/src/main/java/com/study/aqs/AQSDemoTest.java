@@ -48,73 +48,11 @@ public class AQSDemoTest {
             ;
         }.start();
 
-        new Thread() {
-            @Override
-            public void run() {
-                aqsDemoTest.task(Thread.currentThread());
-            }
-
-            ;
-        }.start();
-
-        new Thread() {
-            @Override
-            public void run() {
-                aqsDemoTest.task(Thread.currentThread());
-            }
-
-            ;
-        }.start();
-
-        new Thread() {
-            @Override
-            public void run() {
-                aqsDemoTest.task(Thread.currentThread());
-            }
-
-            ;
-        }.start();
-
-        new Thread() {
-            @Override
-            public void run() {
-                aqsDemoTest.task(Thread.currentThread());
-            }
-
-            ;
-        }.start();
-
-        new Thread() {
-            @Override
-            public void run() {
-                aqsDemoTest.task(Thread.currentThread());
-            }
-
-            ;
-        }.start();
-
-        new Thread() {
-            @Override
-            public void run() {
-                aqsDemoTest.task(Thread.currentThread());
-            }
-
-            ;
-        }.start();
-
-        new Thread() {
-            @Override
-            public void run() {
-                aqsDemoTest.task(Thread.currentThread());
-            }
-
-            ;
-        }.start();
-
     }
 
     public void task(Thread thread) {
         lock.lock();
+        lock.tryLock();
         try {
             Thread.sleep(10000);
             System.out.println(thread.getName() + "得到了锁");

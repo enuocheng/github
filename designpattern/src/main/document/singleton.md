@@ -116,49 +116,49 @@ public final class Constructor<T> extends Executable {
 ```
 
 枚举在进行反序列化的时候：
-```java
-public class ObjectOutputStream
-    extends OutputStream implements ObjectOutput, ObjectStreamConstants{
-    private Enum<?> readEnum(boolean unshared) throws IOException {
-            if (bin.readByte() != TC_ENUM) {
-                throw new InternalError();
-            }
-    
-            ObjectStreamClass desc = readClassDesc(false);
-            if (!desc.isEnum()) {
-                throw new InvalidClassException("non-enum class: " + desc);
-            }
-    
-            int enumHandle = handles.assign(unshared ? unsharedMarker : null);
-            ClassNotFoundException resolveEx = desc.getResolveException();
-            if (resolveEx != null) {
-                handles.markException(enumHandle, resolveEx);
-            }
-    
-            String name = readString(false);
-            Enum<?> result = null;
-            Class<?> cl = desc.forClass();
-            if (cl != null) {
-                try {
-                    @SuppressWarnings("unchecked")
-                    Enum<?> en = Enum.valueOf((Class)cl, name);
-                    result = en;
-                } catch (IllegalArgumentException ex) {
-                    throw (IOException) new InvalidObjectException(
-                        "enum constant " + name + " does not exist in " +
-                        cl).initCause(ex);
+    ```java
+    public class ObjectOutputStream
+        extends OutputStream implements ObjectOutput, ObjectStreamConstants{
+        private Enum<?> readEnum(boolean unshared) throws IOException {
+                if (bin.readByte() != TC_ENUM) {
+                    throw new InternalError();
                 }
-                if (!unshared) {
-                    handles.setObject(enumHandle, result);
+        
+                ObjectStreamClass desc = readClassDesc(false);
+                if (!desc.isEnum()) {
+                    throw new InvalidClassException("non-enum class: " + desc);
                 }
+        
+                int enumHandle = handles.assign(unshared ? unsharedMarker : null);
+                ClassNotFoundException resolveEx = desc.getResolveException();
+                if (resolveEx != null) {
+                    handles.markException(enumHandle, resolveEx);
+                }
+        
+                String name = readString(false);
+                Enum<?> result = null;
+                Class<?> cl = desc.forClass();
+                if (cl != null) {
+                    try {
+                        @SuppressWarnings("unchecked")
+                        Enum<?> en = Enum.valueOf((Class)cl, name);
+                        result = en;
+                    } catch (IllegalArgumentException ex) {
+                        throw (IOException) new InvalidObjectException(
+                            "enum constant " + name + " does not exist in " +
+                            cl).initCause(ex);
+                    }
+                    if (!unshared) {
+                        handles.setObject(enumHandle, result);
+                    }
+                }
+        
+                handles.finish(enumHandle);
+                passHandle = enumHandle;
+                return result;
             }
-    
-            handles.finish(enumHandle);
-            passHandle = enumHandle;
-            return result;
-        }
-}
-```
+    }
+    ```
 
 * 总结
    -
